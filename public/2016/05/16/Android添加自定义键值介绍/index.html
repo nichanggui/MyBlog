@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android添加自定义键值介绍 | Changgui&#39;s Blog | Android Framework工程师成长之路</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="自定义键值 KeyEvent">
+  <meta name="description" content="Android添加自定义键值介绍在Android中，上层可使用的键值默认情况下是92个，从0-91；一般情况下，这些键值是够用的，但是如果想扩充的话，还是需要添加新的键值的，那么如何将一个新的键值从驱动的设置映射到上层，使应用可以对我们自定义的键值进行相应的处理呢？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android添加自定义键值介绍">
+<meta property="og:url" content="http://changgui.com/2016/05/16/Android添加自定义键值介绍/index.html">
+<meta property="og:site_name" content="Changgui's Blog">
+<meta property="og:description" content="Android添加自定义键值介绍在Android中，上层可使用的键值默认情况下是92个，从0-91；一般情况下，这些键值是够用的，但是如果想扩充的话，还是需要添加新的键值的，那么如何将一个新的键值从驱动的设置映射到上层，使应用可以对我们自定义的键值进行相应的处理呢？">
+<meta property="og:image" content="http://changgui.com/img/keyevent/KeyEvent_1.jpeg">
+<meta property="og:image" content="http://changgui.com/img/keyevent/KeyEvent_2.jpeg">
+<meta property="og:image" content="http://changgui.com/img/keyevent/KeyEvent_3.jpeg">
+<meta property="og:image" content="http://changgui.com/img/keyevent/KeyEvent_6.jpeg">
+<meta property="og:image" content="http://changgui.com/img/keyevent/KeyEvent_4.jpeg">
+<meta property="og:image" content="http://changgui.com/img/keyevent/KeyEvent_5.jpeg">
+<meta property="og:updated_time" content="2016-05-16T10:05:43.094Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android添加自定义键值介绍">
+<meta name="twitter:description" content="Android添加自定义键值介绍在Android中，上层可使用的键值默认情况下是92个，从0-91；一般情况下，这些键值是够用的，但是如果想扩充的话，还是需要添加新的键值的，那么如何将一个新的键值从驱动的设置映射到上层，使应用可以对我们自定义的键值进行相应的处理呢？">
+<meta name="twitter:image" content="http://changgui.com/img/keyevent/KeyEvent_1.jpeg">
+  
+    <link rel="alternative" href="/atom.xml" title="Changgui&#39;s Blog" type="application/atom+xml">
+  
+  <meta name="summary" content="&lt;h1 id=&quot;Android添加自定义键值介绍&quot;&gt;&lt;a href=&quot;#Android添加自定义键值介绍&quot; class=&quot;headerlink&quot; title=&quot;Android添加自定义键值介绍&quot;&gt;&lt;/a&gt;Android添加自定义键值介绍&lt;/h1&gt;&lt;p&gt;在Android中，上层可使用的键值默认情况下是92个，从0-91；一般情况下，这些键值是够用的，但是如果想扩充的话，还是需要添加新的键值的，那么如何将一个新的键值从驱动的设置映射到上层，使应用可以对我们自定义的键值进行相应的处理呢？&lt;br&gt;">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="loading" class="active"></div>
+
+  <nav id="menu" class="hide" >
+   <div class="inner">
+  <a href="javascript:;" class="header-icon waves-circle-light" id="menu-off">
+      <i class="icon icon-lg icon-close"></i>
+  </a>
+  <div class="brand-wrap">
+    <div class="brand">
+      <a href="/" class="avatar"><img src="/img/logo.jpg"></a>
+      <hgroup class="introduce">
+        <h5 class="nickname">Changgui.ni</h5>
+        <a href="mailto:undefined" title="865440087@qq.com" class="mail">865440087@qq.com</a>
+      </hgroup>
+    </div>
+  </div>
+  <ul class="nav">
+    
+        <li class="waves-block">
+          <a href="/"  >
+            <i class="icon icon-lg icon-home"></i>
+            主页
+          </a>
+        </li>
+    
+        <li class="waves-block">
+          <a href="/archives"  >
+            <i class="icon icon-lg icon-archives"></i>
+            Archives
+          </a>
+        </li>
+    
+        <li class="waves-block">
+          <a href="/tags"  >
+            <i class="icon icon-lg icon-tags"></i>
+            Tags
+          </a>
+        </li>
+    
+        <li class="waves-block">
+          <a href="https://github.com/nichanggui" target="_blank" >
+            <i class="icon icon-lg icon-github"></i>
+            Github
+          </a>
+        </li>
+    
+        <li class="waves-block">
+          <a href="/"  >
+            <i class="icon icon-lg icon-link"></i>
+            测试
+          </a>
+        </li>
+    
+  </ul>
+
+  <footer class="footer">
+  <p><a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0;vertical-align:middle;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAPCAMAAABEF7i9AAAAllBMVEUAAAD///+rsapERER3d3eIiIjMzMzu7u4iIiKUmZO6v7rKzsoODg4RERFVVVUNDQ0NDg0PEA8zMzNLTEtbXltmZmZydnF9gn2AgICPkI+ZmZmqqqq7u7vFxsXIzMgNDQwZGRkgICAhISEkJSMnKCcuMC4xMzE5Ozk7PTtBQkFCQkJDQ0Nna2eGhoaHh4ezuLLGysbd3d1wVGpAAAAA4UlEQVR42q2T1xqCMAyFk7QsBQeKA9x7j/d/OSm22CpX0nzcpA1/T05aAOuBVkMAScQFHLnEwoCo2f1TnQIGoVMewjZEjVFN4GH1Ue1Cn2jWqwfsOOj6wDwGvotsl/c8lv7KIq1eLOsT0HMFHMIE/RZyHnlphryT9zyV+8WH5e8yQw3wnQvgAFxPTKUVi555SHR/lOfLMgVTeDlSfN+TaoUsiTyeIm+bCkHvCA2FUKG48LDtYBZBknsYP/G8NTw0gaaHyuQf4H5pecrB/FYCT2sL9zAfy1Xyjou6L8X2W7YcLyBZCRtnq/zfAAAAAElFTkSuQmCC" /></a></p>
+  <p>Changgui&#39;s Blog &copy; 2016</p>
+  <p>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+  <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></p>
+  <a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-2x icon-rss-square"></i></a>
+</footer>
+
+</div>
+
+  </nav>
+  <main id="main">
+    <header class="header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-circle-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Android添加自定义键值介绍</div>
+        
+        <a href="javascript:;" class="header-icon waves-circle-light" id="menu-share">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header">
+  <div class="container">
+    <h1 class="author">Android添加自定义键值介绍</h1>
+    <h5 class="subtitle">2016-05-16</h5>
+  </div>
+</header>
+
+    <div class="container body-wrap">
+      
+  <article id="post-Android添加自定义键值介绍" class="article article-type-post" itemprop="blogPost">
+    
+      <div class="post-meat flex-row">
+        <div class="flex-col">
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自定义键值-KeyEvent/">自定义键值 KeyEvent</a></li></ul>
+</div>
+      </div>
+      <div class="post-body">
+
+        <aside class="post-widget" id="post-widget">
+
+          
+          <div class="post-share" id="post-share">
+    <div class="tit">分享到：</div>
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" href="javascript:;" data-title="微博" data-service="tsina">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns" href="javascript:;" data-title="微信" data-service="weixin">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" href="javascript:;" data-title=" QQ" data-service="cqq">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" href="javascript:;" data-title=" Facebook" data-service="fb">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" href="javascript:;" data-title=" Twitter" data-service="twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="douban share-sns" href="javascript:;" data-title="豆瓣" data-service="douban">
+          豆
+        </a>
+      </li>
+    </ul>
+ </div>
+
+          
+
+          
+          <nav class="post-toc-wrap" id="post-toc">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Android添加自定义键值介绍"><span class="post-toc-text">Android添加自定义键值介绍</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#涉及到的文件"><span class="post-toc-text">涉及到的文件</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#实现步骤及细节"><span class="post-toc-text">实现步骤及细节</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#编译及验证"><span class="post-toc-text">编译及验证</span></a></li></ol></li></ol>
+          </nav>
+          
+        </aside>
+
+        <div class="post-main">
+
+            <div class="post-content" id="post-content" itemprop="postContent"><h1 id="Android添加自定义键值介绍"><a href="#Android添加自定义键值介绍" class="headerlink" title="Android添加自定义键值介绍"></a>Android添加自定义键值介绍</h1><p>在Android中，上层可使用的键值默认情况下是92个，从0-91；一般情况下，这些键值是够用的，但是如果想扩充的话，还是需要添加新的键值的，那么如何将一个新的键值从驱动的设置映射到上层，使应用可以对我们自定义的键值进行相应的处理呢？<br><a id="more"></a></p>
+<p><strong> 接下来我们一步一步进行自定义键值的添加</strong><br>根据功能需求，我们需要自定义一个键值，用来实现特定功能。<br>举例如下：<br>客户需要实现灭屏双击唤醒屏幕功能<br>灭屏时，双击屏幕，BSP驱动同事上传一个自定义的Linux键值<br>经过键值转换，将Linux码键转换为上层KeyEvent中自定义的键值<br>获取到经过转换后的键值，完成唤醒操作<br>上述中简单的介绍了一个自定义键值，从底层驱动触发、上传、转换到被用户使用的一个流程，接下来我们讲讲具体的实现。</p>
+<h2 id="涉及到的文件"><a href="#涉及到的文件" class="headerlink" title="涉及到的文件"></a>涉及到的文件</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">kernel\include\uapi\linux\Input.h ----------------------------------- 底层Linux码值定义</span><br><span class="line">kernel\drivers\input\touchscreen\atmel\Atmel_mxt_ts.c ---- 底层Linux码值上报</span><br><span class="line">framework\base\core\java\android\view\KeyEvent.java ------ framework层Android键值定义</span><br><span class="line">frameworks\base\core\res\res\values\attrs.xml --------------- framework层Android键值资源定义</span><br><span class="line">frameworks\base\data\keyboards\Generic.kl ------------------ Linux码值转换成Android键值转换表</span><br><span class="line">frameworks\<span class="keyword">native</span>\include\android\keycodes.h -------------- Android自定义键值nativ声明</span><br><span class="line">frameworks\<span class="keyword">native</span>\include\input\InputEventLabels.h ------- Android自定义键值nativ声明</span><br><span class="line">frameworks\base\policy\src\com\android\internal\policy\impl\PhoneWindowManager.java -------- 本例中处理自定义键值的地方</span><br></pre></td></tr></table></figure>
+<h2 id="实现步骤及细节"><a href="#实现步骤及细节" class="headerlink" title="实现步骤及细节"></a>实现步骤及细节</h2><p>根据上述的文件，我们依次介绍下如何添加。</p>
+<pre><code>kernel\include\uapi\linux\Input.h
+</code></pre><p>这个文件是kernel定义Linux码值的地方，我们这里我们可以看到很多类似“#define KEY_<em>*</em> ###”的定义，我们做如下定义：</p>
+<pre><code>#define KEY_DOUBLE_TAP 195
+</code></pre><p>这个”DOUBLE_TAP”命名要从下至上保持一致，且195这个数字要没有被定义过。</p>
+<pre><code>2.kernel\drivers\input\touchscreen\atmel\Atmel_mxt_ts.c
+</code></pre><p>这个文件主要是对上面的码值进行引用，具体细节上如何操作，可询问BSP同事，这里不再描述。<br>上述两个文件修改完成后，编译bootimage，推送到手机即可验证。接下来我们讲讲Framework层涉及到的修改。</p>
+<pre><code>3.framework\base\core\java\android\view\KeyEvent.java
+</code></pre><p>Android的所有键值都是在这个地方有相应的定义的，所以我们也需要添加我们的修改到这个文件。<br>在完成本例时，Android的最后一个键值为“HELP”,数值是259，所以我们在此基础上定义我们的自定义键值的数值大小为260。</p>
+<img src="/img/keyevent/KeyEvent_1.jpeg" class="[class names]">
+<p>从上图中我们可以看见，在我们添加260数值下面有一段注释，这个就是添加一个自定义键值在Framework层需要做的修改。<br>其中isSystem(),isWakeKey()并不是必改项，可以根据需要添加，其中修改了isWakeKey()后，每次有改键值上报上来，系统都会自动唤醒屏幕。<br>接下来我们根据这个注释依次修改相应文件，基本上就是我们之前提到的涉及到的文件。</p>
+<pre><code>4.frameworks\native\include\android\keycodes.h
+</code></pre><p>这个文件的修改如下：<br><img src="/img/keyevent/KeyEvent_2.jpeg" class="[class names]"><br>    5.frameworks\native\include\input\InputEventLabels.h<br>这个文件的修改如下：<br><img src="/img/keyevent/KeyEvent_3.jpeg" class="[class names]"><br>    6.frameworks\base\core\res\res\values\attrs.xml<br>Android键值资源声明：<br><img src="/img/keyevent/KeyEvent_6.jpeg" class="[class names]"><br>到此为止，自定义键值的底层码值定义、上层键值声明都已全部完成，此时我们还不能在上层获取到正确的键值，因为我们还差最重要的一步：Linux码值转换为Android键值。<br>这个转换要如何实现呢？Android中其实是存在一张键值转换表的，根据相同的键值命名，把Linux码值与Framework层的键值一一对应起来。点我了解更多</p>
+<pre><code>7.frameworks\base\data\keyboards\Generic.kl
+</code></pre><p>此文件为本例项目中使用的键值转换表，在表中做如下添加：<br><img src="/img/keyevent/KeyEvent_4.jpeg" class="[class names]"></p>
+<p>195为我们在Linux下定义的码值，对应我们Framework中声明的“DOUBLE_TAP”键。</p>
+<pre><code>8.frameworks\base\policy\src\com\android\internal\policy\impl\PhoneWindowManager.java
+</code></pre><p>本例中，我们最终获取并使用自定义键值的地方是在PhoneWindowManager的interceptKeyBeforeQueueing()方法中：<br><img src="/img/keyevent/KeyEvent_5.jpeg" class="[class names]"></p>
+<h2 id="编译及验证"><a href="#编译及验证" class="headerlink" title="编译及验证"></a>编译及验证</h2><p>在第三部分的添加修改完成后， 我们需要对应编译相应的模块并将生成的东西push到手机中验证。<br>对于kernel中的修改，编译bootimage后fastboot boot.img即可<br>对于Framework里面的编译对应模块将其生成的产物放到对应目录下重启即可<br>[*]: 如果framework里面模块编译后，对应push到手机后无效果，可以试试make snod将重新打包的system.img fastboot到手机。<br>对于Generic.kl文件，看其模块make文件可知，其执行的操作就是将Generic.kl文件拷贝到/system/usr/keylayout目录下，<br>所以我们可以直接将修改好的文件push到手机：adb push Generic.kl /system/usr/keylayout</p>
+</div>
+
+            
+<nav class="post-nav flex-row">
+  <div class="flex-col waves-block prev">
+    
+  </div>
+  <div class="flex-col waves-block next">
+    
+      <a href="/2016/05/03/设计模式之Iterator/" title="设计模式之Iterator" id="post-next" class="post-nav-link">
+        <span class="article-nav-title">下一篇</span>
+        <i class="icon icon-chevron-right"></i>
+      </a>
+    
+  </div>
+
+</nav>
+
+
+
+            
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Android添加自定义键值介绍" data-title="Android添加自定义键值介绍" data-url="http://changgui.com/2016/05/16/Android添加自定义键值介绍/index.html"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"nichanggui"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+
+
+        </div>
+
+      </div>
+
+    
+
+  </article>
+
+
+    </div>
+  </main>
+<div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-circle-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+<script>
+var BLOG_SHARE = {
+    title: "Android添加自定义键值介绍",
+    pic: "/img/logo.jpg",
+    summary: document.getElementsByName('summary')[0].content,
+    url: "http://changgui.com/2016/05/16/Android添加自定义键值介绍/index.html"
+};
+</script>
+<div class="global-share" id="global-share">
+    <div class="tit">分享到：</div>
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" href="javascript:;" data-title="微博" data-service="tsina">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns" href="javascript:;" data-title="微信" data-service="weixin">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" href="javascript:;" data-title=" QQ" data-service="cqq">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" href="javascript:;" data-title=" Facebook" data-service="fb">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" href="javascript:;" data-title=" Twitter" data-service="twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="douban share-sns" href="javascript:;" data-title="豆瓣" data-service="douban">
+          豆
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+<script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
