@@ -75,7 +75,7 @@ plugins: hexo-renderer-less
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repository: https://github.com/nichanggui/nichanggui.github.io.git
+  repository: git@github.com:nichanggui/nichanggui.github.io.git
   branch: master
 
 duoshuo_shortname: nichanggui
