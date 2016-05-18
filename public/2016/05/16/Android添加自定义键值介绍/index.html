@@ -19,7 +19,7 @@
 <meta property="og:image" content="http://changgui.com/img/keyevent/KeyEvent_6.jpeg">
 <meta property="og:image" content="http://changgui.com/img/keyevent/KeyEvent_4.jpeg">
 <meta property="og:image" content="http://changgui.com/img/keyevent/KeyEvent_5.jpeg">
-<meta property="og:updated_time" content="2016-05-16T10:05:43.000Z">
+<meta property="og:updated_time" content="2016-05-18T05:49:34.613Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android添加自定义键值介绍">
 <meta name="twitter:description" content="Android添加自定义键值介绍在Android中，上层可使用的键值默认情况下是92个，从0-91；一般情况下，这些键值是够用的，但是如果想扩充的话，还是需要添加新的键值的，那么如何将一个新的键值从驱动的设置映射到上层，使应用可以对我们自定义的键值进行相应的处理呢？">
@@ -27,7 +27,7 @@
   
     <link rel="alternative" href="/atom.xml" title="Changgui&#39;s Blog" type="application/atom+xml">
   
-  <meta name="summary" content="&lt;h1 id=&quot;Android添加自定义键值介绍&quot;&gt;&lt;a href=&quot;#Android添加自定义键值介绍&quot; class=&quot;headerlink&quot; title=&quot;Android添加自定义键值介绍&quot;&gt;&lt;/a&gt;Android添加自定义键值介绍&lt;/h1&gt;&lt;p&gt;在Android中，上层可使用的键值默认情况下是92个，从0-91；一般情况下，这些键值是够用的，但是如果想扩充的话，还是需要添加新的键值的，那么如何将一个新的键值从驱动的设置映射到上层，使应用可以对我们自定义的键值进行相应的处理呢？&lt;br&gt;">
+  <meta name="summary" content="&lt;p&gt;Android添加自定义键值介绍&lt;br&gt;在Android中，上层可使用的键值默认情况下是92个，从0-91；一般情况下，这些键值是够用的，但是如果想扩充的话，还是需要添加新的键值的，那么如何将一个新的键值从驱动的设置映射到上层，使应用可以对我们自定义的键值进行相应的处理呢？&lt;br&gt;">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="stylesheet" href="/css/style.css">
 </head>
@@ -45,7 +45,7 @@
       <a href="/" class="avatar"><img src="/img/logo.jpg"></a>
       <hgroup class="introduce">
         <h5 class="nickname">Changgui.ni</h5>
-        <a href="mailto:undefined" title="865440087@qq.com" class="mail">865440087@qq.com</a>
+        <a href="mailto:undefined" title="abc865440087@gmail.com" class="mail">abc865440087@gmail.com</a>
       </hgroup>
     </div>
   </div>
@@ -174,14 +174,14 @@
 
           
           <nav class="post-toc-wrap" id="post-toc">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Android添加自定义键值介绍"><span class="post-toc-text">Android添加自定义键值介绍</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#涉及到的文件"><span class="post-toc-text">涉及到的文件</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#实现步骤及细节"><span class="post-toc-text">实现步骤及细节</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#编译及验证"><span class="post-toc-text">编译及验证</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#涉及到的文件"><span class="post-toc-text">涉及到的文件</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#实现步骤及细节"><span class="post-toc-text">实现步骤及细节</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#编译及验证"><span class="post-toc-text">编译及验证</span></a></li></ol>
           </nav>
           
         </aside>
 
         <div class="post-main">
 
-            <div class="post-content" id="post-content" itemprop="postContent"><h1 id="Android添加自定义键值介绍"><a href="#Android添加自定义键值介绍" class="headerlink" title="Android添加自定义键值介绍"></a>Android添加自定义键值介绍</h1><p>在Android中，上层可使用的键值默认情况下是92个，从0-91；一般情况下，这些键值是够用的，但是如果想扩充的话，还是需要添加新的键值的，那么如何将一个新的键值从驱动的设置映射到上层，使应用可以对我们自定义的键值进行相应的处理呢？<br><a id="more"></a></p>
+            <div class="post-content" id="post-content" itemprop="postContent"><p>Android添加自定义键值介绍<br>在Android中，上层可使用的键值默认情况下是92个，从0-91；一般情况下，这些键值是够用的，但是如果想扩充的话，还是需要添加新的键值的，那么如何将一个新的键值从驱动的设置映射到上层，使应用可以对我们自定义的键值进行相应的处理呢？<br><a id="more"></a></p>
 <p><strong> 接下来我们一步一步进行自定义键值的添加</strong><br>根据功能需求，我们需要自定义一个键值，用来实现特定功能。<br>举例如下：<br>客户需要实现灭屏双击唤醒屏幕功能<br>灭屏时，双击屏幕，BSP驱动同事上传一个自定义的Linux键值<br>经过键值转换，将Linux码键转换为上层KeyEvent中自定义的键值<br>获取到经过转换后的键值，完成唤醒操作<br>上述中简单的介绍了一个自定义键值，从底层驱动触发、上传、转换到被用户使用的一个流程，接下来我们讲讲具体的实现。</p>
 <h2 id="涉及到的文件"><a href="#涉及到的文件" class="headerlink" title="涉及到的文件"></a>涉及到的文件</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">kernel\include\uapi\linux\Input.h ----------------------------------- 底层Linux码值定义</span><br><span class="line">kernel\drivers\input\touchscreen\atmel\Atmel_mxt_ts.c ---- 底层Linux码值上报</span><br><span class="line">framework\base\core\java\android\view\KeyEvent.java ------ framework层Android键值定义</span><br><span class="line">frameworks\base\core\res\res\values\attrs.xml --------------- framework层Android键值资源定义</span><br><span class="line">frameworks\base\data\keyboards\Generic.kl ------------------ Linux码值转换成Android键值转换表</span><br><span class="line">frameworks\<span class="keyword">native</span>\include\android\keycodes.h -------------- Android自定义键值nativ声明</span><br><span class="line">frameworks\<span class="keyword">native</span>\include\input\InputEventLabels.h ------- Android自定义键值nativ声明</span><br><span class="line">frameworks\base\policy\src\com\android\internal\policy\impl\PhoneWindowManager.java -------- 本例中处理自定义键值的地方</span><br></pre></td></tr></table></figure>
 <h2 id="实现步骤及细节"><a href="#实现步骤及细节" class="headerlink" title="实现步骤及细节"></a>实现步骤及细节</h2><p>根据上述的文件，我们依次介绍下如何添加。</p>
@@ -209,7 +209,7 @@
 <nav class="post-nav flex-row">
   <div class="flex-col waves-block prev">
     
-      <a href="/2016/05/17/hello-world/" title="Hello World" id="post-prev" class="post-nav-link">
+      <a href="/2016/05/18/Android-xml资源文件的应用方式/" title="Android-xml资源文件的应用方式" id="post-prev" class="post-nav-link">
         <i class="icon icon-chevron-left"></i>
         <span class="article-nav-title">上一篇</span>
       </a>

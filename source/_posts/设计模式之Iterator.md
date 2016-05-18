@@ -7,6 +7,7 @@ tags: Iterator
 **Iteraotr设计模**是在集合中使 用 的非常多的一种模式, Iterator 为我们提供了统一的遍历集合的方法,不管该种集合的底层是用数组还是链表实现.现在使用Iterator这种设计模式设计自己的集合类型,为了大家方便理解,现将我自定义的集合名和J D K中提供的集合名保持一致。
 
 **接下来写一个简单的Iterator设计模式的例子**
+<!--more-->
 - 1、定义Iterator接口(注意是自定义的，而非jdk自带的)
 ``` java
 public interface Iterator{
@@ -18,7 +19,6 @@ public interface Iterator{
 	Iterator iterator();
 }
 ```
-<!--more-->
 - 2、定义Collection接口，该接口继承Iteraotr接口
 ``` java
 public interface Collection extends Iterator{

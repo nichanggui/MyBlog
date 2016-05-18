@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android-xml资源文件的应用方式 | Changgui&#39;s Blog | Android Framework工程师成长之路</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="Android xml drawable">
+  <meta name="description" content="Android xml资源文件中@、@android:type、@*、？、@+含义和区别 
+在android开发中，我们在使用xml资源的时候一般会定义自己的xml资源，放在drawale目录下，在使用的时候使用@drawable或者@string的形式进行资源引用。如果使用系统的资源比如ID,则@android:id 如果使用系统的drawable，则使用@android:drawable、?a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android-xml资源文件的应用方式">
+<meta property="og:url" content="http://changgui.com/2016/05/18/Android-xml资源文件的应用方式/index.html">
+<meta property="og:site_name" content="Changgui's Blog">
+<meta property="og:description" content="Android xml资源文件中@、@android:type、@*、？、@+含义和区别 
+在android开发中，我们在使用xml资源的时候一般会定义自己的xml资源，放在drawale目录下，在使用的时候使用@drawable或者@string的形式进行资源引用。如果使用系统的资源比如ID,则@android:id 如果使用系统的drawable，则使用@android:drawable、?a">
+<meta property="og:updated_time" content="2016-05-18T06:07:20.118Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android-xml资源文件的应用方式">
+<meta name="twitter:description" content="Android xml资源文件中@、@android:type、@*、？、@+含义和区别 
+在android开发中，我们在使用xml资源的时候一般会定义自己的xml资源，放在drawale目录下，在使用的时候使用@drawable或者@string的形式进行资源引用。如果使用系统的资源比如ID,则@android:id 如果使用系统的drawable，则使用@android:drawable、?a">
+  
+    <link rel="alternative" href="/atom.xml" title="Changgui&#39;s Blog" type="application/atom+xml">
+  
+  <meta name="summary" content="&lt;p&gt;Android xml资源文件中@、@android:type、@*、？、@+含义和区别 &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;在android&lt;/strong&gt;开发中，我们在使用xml资源的时候一般会定义自己的xml资源，放在drawale目录下，在使用的时候使用&lt;strong&gt;@drawable&lt;/strong&gt;或者&lt;strong&gt;@string&lt;/strong&gt;的形式进行资源引用。如果使用系统的资源比如ID,则&lt;strong&gt;@android:id&lt;/strong&gt; 如果使用系统的drawable，则使用&lt;strong&gt;@android:drawable&lt;/strong&gt;、&lt;strong&gt;?android:att&lt;/strong&gt;然而这些具体是什么意思，在什么情况下使用？本文对这几个引用进行简单的介绍。&lt;br&gt;">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="loading" class="active"></div>
+
+  <nav id="menu" class="hide" >
+   <div class="inner">
+  <a href="javascript:;" class="header-icon waves-circle-light" id="menu-off">
+      <i class="icon icon-lg icon-close"></i>
+  </a>
+  <div class="brand-wrap">
+    <div class="brand">
+      <a href="/" class="avatar"><img src="/img/logo.jpg"></a>
+      <hgroup class="introduce">
+        <h5 class="nickname">Changgui.ni</h5>
+        <a href="mailto:undefined" title="abc865440087@gmail.com" class="mail">abc865440087@gmail.com</a>
+      </hgroup>
+    </div>
+  </div>
+  <ul class="nav">
+    
+        <li class="waves-block">
+          <a href="/"  >
+            <i class="icon icon-lg icon-home"></i>
+            主页
+          </a>
+        </li>
+    
+        <li class="waves-block">
+          <a href="/archives"  >
+            <i class="icon icon-lg icon-archives"></i>
+            Archives
+          </a>
+        </li>
+    
+        <li class="waves-block">
+          <a href="/tags"  >
+            <i class="icon icon-lg icon-tags"></i>
+            Tags
+          </a>
+        </li>
+    
+        <li class="waves-block">
+          <a href="https://github.com/nichanggui" target="_blank" >
+            <i class="icon icon-lg icon-github"></i>
+            Github
+          </a>
+        </li>
+    
+        <li class="waves-block">
+          <a href="/"  >
+            <i class="icon icon-lg icon-link"></i>
+            测试
+          </a>
+        </li>
+    
+  </ul>
+
+  <footer class="footer">
+  <p><a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0;vertical-align:middle;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAPCAMAAABEF7i9AAAAllBMVEUAAAD///+rsapERER3d3eIiIjMzMzu7u4iIiKUmZO6v7rKzsoODg4RERFVVVUNDQ0NDg0PEA8zMzNLTEtbXltmZmZydnF9gn2AgICPkI+ZmZmqqqq7u7vFxsXIzMgNDQwZGRkgICAhISEkJSMnKCcuMC4xMzE5Ozk7PTtBQkFCQkJDQ0Nna2eGhoaHh4ezuLLGysbd3d1wVGpAAAAA4UlEQVR42q2T1xqCMAyFk7QsBQeKA9x7j/d/OSm22CpX0nzcpA1/T05aAOuBVkMAScQFHLnEwoCo2f1TnQIGoVMewjZEjVFN4GH1Ue1Cn2jWqwfsOOj6wDwGvotsl/c8lv7KIq1eLOsT0HMFHMIE/RZyHnlphryT9zyV+8WH5e8yQw3wnQvgAFxPTKUVi555SHR/lOfLMgVTeDlSfN+TaoUsiTyeIm+bCkHvCA2FUKG48LDtYBZBknsYP/G8NTw0gaaHyuQf4H5pecrB/FYCT2sL9zAfy1Xyjou6L8X2W7YcLyBZCRtnq/zfAAAAAElFTkSuQmCC" /></a></p>
+  <p>Changgui&#39;s Blog &copy; 2016</p>
+  <p>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+  <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></p>
+  <a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-2x icon-rss-square"></i></a>
+</footer>
+
+</div>
+
+  </nav>
+  <main id="main">
+    <header class="header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-circle-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Android-xml资源文件的应用方式</div>
+        
+        <a href="javascript:;" class="header-icon waves-circle-light" id="menu-share">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header">
+  <div class="container">
+    <h1 class="author">Android-xml资源文件的应用方式</h1>
+    <h5 class="subtitle">2016-05-18</h5>
+  </div>
+</header>
+
+    <div class="container body-wrap">
+      
+  <article id="post-Android-xml资源文件的应用方式" class="article article-type-post" itemprop="blogPost">
+    
+      <div class="post-meat flex-row">
+        <div class="flex-col">
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android-xml-drawable/">Android xml drawable</a></li></ul>
+</div>
+      </div>
+      <div class="post-body">
+
+        <aside class="post-widget" id="post-widget">
+
+          
+          <div class="post-share" id="post-share">
+    <div class="tit">分享到：</div>
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" href="javascript:;" data-title="微博" data-service="tsina">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns" href="javascript:;" data-title="微信" data-service="weixin">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" href="javascript:;" data-title=" QQ" data-service="cqq">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" href="javascript:;" data-title=" Facebook" data-service="fb">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" href="javascript:;" data-title=" Twitter" data-service="twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="douban share-sns" href="javascript:;" data-title="豆瓣" data-service="douban">
+          豆
+        </a>
+      </li>
+    </ul>
+ </div>
+
+          
+
+          
+          <nav class="post-toc-wrap" id="post-toc">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1、-代表引用资源"><span class="post-toc-text">1、@代表引用资源</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2、-代表引用系统的非public资源。格式：-android-type-name"><span class="post-toc-text">2、@代表引用系统的非public资源。格式：@android:type/name</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3、-代表引用主题属性"><span class="post-toc-text">3、?代表引用主题属性</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4、-代表在创建或引用资源-。格式：-type-name"><span class="post-toc-text">4、@+代表在创建或引用资源 。格式：@+type/name</span></a></li></ol>
+          </nav>
+          
+        </aside>
+
+        <div class="post-main">
+
+            <div class="post-content" id="post-content" itemprop="postContent"><p>Android xml资源文件中@、@android:type、@*、？、@+含义和区别 </p>
+<p><strong>在android</strong>开发中，我们在使用xml资源的时候一般会定义自己的xml资源，放在drawale目录下，在使用的时候使用<strong>@drawable</strong>或者<strong>@string</strong>的形式进行资源引用。如果使用系统的资源比如ID,则<strong>@android:id</strong> 如果使用系统的drawable，则使用<strong>@android:drawable</strong>、<strong>?android:att</strong>然而这些具体是什么意思，在什么情况下使用？本文对这几个引用进行简单的介绍。<br><a id="more"></a></p>
+<h2 id="1、-代表引用资源"><a href="#1、-代表引用资源" class="headerlink" title="1、@代表引用资源"></a>1、@代表引用资源</h2><ul>
+<li><p>引用自定义资源。格式：@[package:]type/name</p>
+<pre><code>android:text=&quot;@string/hello&quot;
+</code></pre></li>
+<li><p>引用系统资源。格式：@android:type/name</p>
+<pre><code>android:textColor=&quot;@android:color/opaque_red&quot;
+</code></pre><p><code>注意：其实@android:type/name是@[package:]type/name 的一个子类</code></p>
+</li>
+</ul>
+<h2 id="2、-代表引用系统的非public资源。格式：-android-type-name"><a href="#2、-代表引用系统的非public资源。格式：-android-type-name" class="headerlink" title="2、@代表引用系统的非public资源。格式：@android:type/name"></a>2、@<em>代表引用系统的非public资源。格式：@</em>android:type/name</h2><p>系统资源定义分public和非public。public的声明在：</p>
+<pre><code>&lt;sdk_path&gt;\platforms\android-8\data\res\values\public.xml
+</code></pre><p>  <strong> @*android:type/name</strong>可以调用系统定义的所有资源<br>  <strong> @android:type/name</strong> 只能够调用publi属性的资源。<br>  <code>注意：没在public.xml中声明的资源是google不推荐使用的</code></p>
+<h2 id="3、-代表引用主题属性"><a href="#3、-代表引用主题属性" class="headerlink" title="3、?代表引用主题属性"></a>3、?代表引用主题属性</h2><p>另外一种资源值允许你引用当前主题中的属性的值。这个属性值只能在style资源和XML属性中使用；它允许你通过将它们改变为当前主题提供的标准变化来改变UI元素的外观，而不是提供具体的值。例如：</p>
+<pre><code>android:textColor=&quot;?android:textDisabledColor&quot; 
+</code></pre><p><code>注意，这和资源引用非常类似，除了我们使用一个&quot;?&quot;前缀代替了&quot;@&quot;。当你使用这个标记时，你就提供了属性资源的名称，它将会在主题中被查找，所以你不需要显示声明这个类型(如果声明，其形式就是?android:attr/android:textDisabledColor)。除了使用这个资源的标识符来查询主题中的值代替原始的资源，其命名语法和&quot;@&quot;形式一致：?[namespace:]type/name，这里类型可选。</code></p>
+<h2 id="4、-代表在创建或引用资源-。格式：-type-name"><a href="#4、-代表在创建或引用资源-。格式：-type-name" class="headerlink" title="4、@+代表在创建或引用资源 。格式：@+type/name"></a>4、@+代表在创建或引用资源 。格式：@+type/name</h2><p>含义：”+”表示在R.java中名为type的内部类中添加一条记录。如”@+id/button”的含义是在R.java 文件中的id 这个静态内部类添加一条常量名为button。该常量就是该资源的标识符。如果标示符（包括系统资源）已经存在则表示引用该标示符。最常用的就是在定义资源ID中，例如：</p>
+<pre><code>@+id/资源ID名         新建一个资源ID
+@id/资源ID名          应用现有已定义的资源ID，包括系统ID
+@android:id/资源ID名   引用系统ID，其等效于@id/资源ID名
+</code></pre></div>
+
+            
+<nav class="post-nav flex-row">
+  <div class="flex-col waves-block prev">
+    
+      <a href="/2016/05/18/设计模式之Iterator/" title="设计模式之Iterator" id="post-prev" class="post-nav-link">
+        <i class="icon icon-chevron-left"></i>
+        <span class="article-nav-title">上一篇</span>
+      </a>
+    
+  </div>
+  <div class="flex-col waves-block next">
+    
+      <a href="/2016/05/16/Android添加自定义键值介绍/" title="Android添加自定义键值介绍" id="post-next" class="post-nav-link">
+        <span class="article-nav-title">下一篇</span>
+        <i class="icon icon-chevron-right"></i>
+      </a>
+    
+  </div>
+
+</nav>
+
+
+
+            
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Android-xml资源文件的应用方式" data-title="Android-xml资源文件的应用方式" data-url="http://changgui.com/2016/05/18/Android-xml资源文件的应用方式/index.html"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"nichanggui"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+
+
+        </div>
+
+      </div>
+
+    
+
+  </article>
+
+
+    </div>
+  </main>
+<div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-circle-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+<script>
+var BLOG_SHARE = {
+    title: "Android-xml资源文件的应用方式",
+    pic: "/img/logo.jpg",
+    summary: document.getElementsByName('summary')[0].content,
+    url: "http://changgui.com/2016/05/18/Android-xml资源文件的应用方式/index.html"
+};
+</script>
+<div class="global-share" id="global-share">
+    <div class="tit">分享到：</div>
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" href="javascript:;" data-title="微博" data-service="tsina">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns" href="javascript:;" data-title="微信" data-service="weixin">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" href="javascript:;" data-title=" QQ" data-service="cqq">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" href="javascript:;" data-title=" Facebook" data-service="fb">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" href="javascript:;" data-title=" Twitter" data-service="twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="douban share-sns" href="javascript:;" data-title="豆瓣" data-service="douban">
+          豆
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+<script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
